@@ -1,6 +1,9 @@
     if (window.texty !== undefined) {
         console.info("Texty has been loaded before.");
     }
+    else if (window.rangy === undefined) {
+        console.error("Rangy is not loaded.");
+    }
     else {
         loadTexty();
     }
