@@ -1,0 +1,38 @@
+{
+  "name": "texty",
+  "version": "0.0.0",
+  "description": "Fully customizable WYSIWYG html editor with custom tags and adapters.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "grunt deploy",
+    "watch": "grunt watch",
+    "require": "grunt requirejs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csutorasr/texty.git"
+  },
+  "keywords": [
+    "wysiwyg",
+    "editor",
+    "rich",
+    "text",
+    "html"
+  ],
+  "author": "Robin Csutorás",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/csutorasr/texty/issues"
+  },
+  "homepage": "https://github.com/csutorasr/texty#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "jshint-stylish": "^2.2.1"
+  }
+}

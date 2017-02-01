@@ -1,0 +1,7 @@
+    if (window.texty !== undefined) {
+        console.info("Texty has been loaded before.");
+    }
+    else {
+        loadTexty();
+    }
+})(window);
