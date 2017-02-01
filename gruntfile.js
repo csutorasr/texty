@@ -8,18 +8,27 @@ module.exports = function (grunt) {
             build: ['Gruntfile.js', 'src/**/*.js', 'tmp/texty.js']
         },
         uglify: {
-            options: {
-                banner: '/**\n * @license Texty v<%= pkg.version %>\n * (c) 2017 <%= pkg.author %>\n * License: <%= pkg.version %>\n */\n'
-            },
-            build: {
+            texty: {
+                options: {
+                    banner: '/**\n * @license Texty v<%= pkg.version %>\n * (c) 2017 <%= pkg.author %>\n * License: <%= pkg.version %>\n */\n',
+                    preserveComments: 'some'
+                },
                 files: {
-                    'build/texty.min.js': 'tmp/texty.js'
+                    'build/texty.min.js': 'tmp/texty.js',
+                }
+            },
+            rangy: {
+                options: {
+                    preserveComments: 'some'
+                },
+                files: {
+                    'build/rangy.min.js': ['node_modules/rangy/lib/rangy-core.js','node_modules/rangy/lib/rangy-classapplier.js']
                 }
             }
         },
         watch: {
             scripts: {
-                files: ['src/**/*.js','gruntfile.js'],
+                files: ['src/**/*.js', 'gruntfile.js'],
                 tasks: ['deploy'],
                 options: {
                     spawn: false,
@@ -34,10 +43,10 @@ module.exports = function (grunt) {
             options: {
                 separator: '',
             },
-            dist: {
+            texty: {
                 src: ['src/texty.prefix', 'src/**/*.js', 'src/texty.suffix'],
                 dest: 'tmp/texty.js',
-            },
+            }
         },
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -45,5 +54,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.registerTask('deploy', ['clean', 'concat', 'jshint', 'uglify']);
+    grunt.registerTask('deploy', ['build', 'uglify:rangy']);
+    grunt.registerTask('build', ['clean', 'concat', 'jshint', 'uglify:texty']);
 };
