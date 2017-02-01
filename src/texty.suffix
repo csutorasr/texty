@@ -5,6 +5,6 @@
         console.error("Rangy is not loaded.");
     }
     else {
-        loadTexty();
+        LoadTexty();
     }
 })(window);
