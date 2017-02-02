@@ -3,10 +3,39 @@
     <head>
         <meta charset="utf-8" />
         <title>Texty test</title>
+        <style>
+            button.active {
+                color: red;
+            }
+        </style>
     </head>
     <body>
         <h1>This is an editor.</h2>
         <p>The text below can be edited.</p>
+        <div>
+            <button id="h1">H1</button>
+            <button id="h2">H2</button>
+            <button id="p">P</button>
+            <button id="decreaseIndent" title="decrease indent">&lt;&lt;</button>
+            <button id="increaseIndent" title="increase indent">&gt;&gt;</button>
+        </div>
+        <div>
+            <button id="left" title="left">&lt;</button>
+            <button id="center" title="center">-</button>
+            <button id="right" title="right">&gt;</button>
+            <button id="justify" title="justify">_</button>
+        </div>
+        <div>
+            <button id="bold">Bold</button>
+            <button id="removeFormatting" title="remove formatting">&times;</button>
+            <button id="image">image</button>
+            <button id="link">link</button>
+        </div>
+        <div>
+            <button id="undo" title="undo">&lt;</button>
+            <button id="redo" title="redo">&gt;</button>
+            <button id="output" title="show output">output</button>
+        </div>
         <div id="editor">
             <h2>Texty editor</h2>
             <p>
