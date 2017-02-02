@@ -5,7 +5,7 @@ module.exports = function (grunt) {
             options: {
                 reporter: require('jshint-stylish')
             },
-            build: ['Gruntfile.js', 'src/**/*.js', 'tmp/texty.js']
+            build: ['Gruntfile.js', 'src/**/*.js']
         },
         uglify: {
             texty: {
