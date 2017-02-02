@@ -24,3 +24,5 @@ Name is the className that will be applied. Options are the same as the [rangy o
 ### Known issues
 
 Sometimes history is not working.
+
+Images cannot act as link
