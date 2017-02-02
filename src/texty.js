@@ -130,6 +130,7 @@ function Texty(element) {
         versions = versions.concat([]);
         currentVersion = versions.push(_element.innerHTML);
         versionFallbackNeeded = true;
+        _this.onSelectionEnds();
     };
     _this.redo = function () {
         if (_this.isRedoable()) {
