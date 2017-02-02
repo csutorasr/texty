@@ -20,7 +20,6 @@ function Texty(element) {
         _this.selectedImage = this;
         _this.onSelectionEnds();
     }, linkSelected = function () {
-        console.log('hello');
         _this.isLinkSelected = true;
         _this.selectedLink = this;
         _this.onSelectionEnds();
@@ -95,6 +94,10 @@ function Texty(element) {
         if (_this.selectionChanged !== undefined) {
             _this.selectionChanged();
         }
+        _this.isImageSelected = false;
+        _this.isLinkSelected = false;
+        _this.selectedImage = undefined;
+        _this.selectedLink = undefined;
     };
     _this.onChange = function (e) {
         if (_this.isRedoable()) {
