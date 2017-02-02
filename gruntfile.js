@@ -29,7 +29,7 @@ module.exports = function (grunt) {
         watch: {
             scripts: {
                 files: ['src/**/*.js', 'gruntfile.js'],
-                tasks: ['deploy'],
+                tasks: ['build'],
                 options: {
                     spawn: false,
                 },
@@ -55,5 +55,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.registerTask('deploy', ['build', 'uglify:rangy']);
-    grunt.registerTask('build', ['clean', 'concat', 'jshint', 'uglify:texty']);
+    grunt.registerTask('build', ['concat', 'jshint', 'uglify:texty']);
 };
