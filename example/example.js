@@ -1,5 +1,5 @@
 var editor = texty.init(document.getElementById('editor'));
-editor.onSelectionChanged(function () {
+editor.addCallback(function () {
     console.log(editor.activeAppliers);
 });
 editor.addApplier('bold', {

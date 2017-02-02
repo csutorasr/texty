@@ -3,6 +3,7 @@ function Texty(element) {
     var appliers = {};
     var _this = this;
     var versions = [], olderVersions = [], versionFallbackNeeded = false;
+    var callbacks = [];
     var currentVersion = 0;
     var versionfallback = function () {
         if (versionFallbackNeeded) {
@@ -54,6 +55,16 @@ function Texty(element) {
         }
         return selectedNodes;
     };
+    var getSelectedBlockNodes = function () {
+        var selectedNodes = getSelectedNodes();
+        var blockNodes = texty.utils.filterBlockNodes(selectedNodes);
+        if (blockNodes.length === 0 && selectedNodes.length !== 0) {
+            blockNodes.push(texty.utils.findFirstBlockParent(selectedNodes[0]));
+        }
+        return blockNodes.filter(function (node) {
+            return _element.contains(node);
+        });
+    };
     _this.element = function () {
         return _element;
     };
@@ -99,8 +110,8 @@ function Texty(element) {
                 _this.activeAppliers.push(name);
             }
         });
-        if (_this.selectionChanged !== undefined) {
-            _this.selectionChanged();
+        for (var i = 0; i < callbacks.length; i++) {
+            callbacks[i]();
         }
         _this.isImageSelected = false;
         _this.isLinkSelected = false;
@@ -140,8 +151,14 @@ function Texty(element) {
     _this.isUndoable = function () {
         return (currentVersion !== 1);
     };
-    _this.onSelectionChanged = function (callback) {
-        _this.selectionChanged = callback;
+    _this.addCallback = function (callback) {
+        callbacks.push(callback);
+    };
+    _this.removeCallback = function (callback) {
+        var index = callbacks.indexOf(callback);
+        if (index > -1) {
+            array.splice(index, 1);
+        }
     };
     _this.parseInput = function (input) {
         if (input !== undefined) {
@@ -199,14 +216,7 @@ function Texty(element) {
             console.error(tagName + " is not a valid block element. Please add it to block tagnames.");
             return;
         }
-        var selectedNodes = getSelectedNodes();
-        var blockNodes = texty.utils.filterBlockNodes(selectedNodes);
-        if (blockNodes.length === 0 && selectedNodes.length !== 0) {
-            blockNodes.push(texty.utils.findFirstBlockParent(selectedNodes[0]));
-        }
-        blockNodes = blockNodes.filter(function (node) {
-            return _element.contains(node);
-        });
+        var blockNodes = getSelectedBlockNodes();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
             var newNode = document.createElement(tagName);
@@ -219,6 +229,25 @@ function Texty(element) {
             blockNode.parentNode.replaceChild(newNode, blockNode);
         }
         _this.onChange();
+    };
+    _this.setAlign = function (type) {
+        var blockNodes = getSelectedBlockNodes();
+        for (var i = 0; i < blockNodes.length; ++i) {
+            var blockNode = blockNodes[i];
+            blockNode.style.textAlign = type;
+        }
+        _this.onChange();
+    };
+    _this.getAlign = function () {
+        var blockNodes = getSelectedBlockNodes();
+        if (blockNodes.length > 0) {
+            var type = blockNodes[0].style.textAlign || 'left';
+            for (var i = 1; i < blockNodes.length; ++i) {
+                if ((blockNodes[i].style.textAlign || 'left') !== type)
+                    type = undefined;
+            }
+            return type;
+        }
     };
     _this.keyboardShortcuts = function (e) {
         var evtobj = window.event ? event : e;
