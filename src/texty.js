@@ -243,8 +243,9 @@ function Texty(element) {
         if (blockNodes.length > 0) {
             var type = blockNodes[0].style.textAlign || 'left';
             for (var i = 1; i < blockNodes.length; ++i) {
-                if ((blockNodes[i].style.textAlign || 'left') !== type)
-                    type = undefined;
+                if ((blockNodes[i].style.textAlign || 'left') !== type) {
+                    return undefined;
+                }
             }
             return type;
         }
