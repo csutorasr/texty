@@ -58,6 +58,9 @@ function Texty(element) {
         return _element;
     };
     _this.addApplier = function (name, options) {
+        if (options && !options.applyToEditableOnly) {
+            options.applyToEditableOnly = true;
+        }
         var applier = rangy.createClassApplier(name, options);
         if (options && options.elementTagName) {
             options.elementTagName = options.elementTagName.toUpperCase();
@@ -201,6 +204,9 @@ function Texty(element) {
         if (blockNodes.length === 0 && selectedNodes.length !== 0) {
             blockNodes.push(texty.utils.findFirstBlockParent(selectedNodes[0]));
         }
+        blockNodes = blockNodes.filter(function(node) {
+            return _element.contains(node);
+        });
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
             var newNode = document.createElement(tagName);
