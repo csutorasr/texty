@@ -3,7 +3,8 @@ editor.onSelectionChanged(function() {
     console.log(editor.activeAppliers);
 });
 editor.addApplier('bold',{
-    elementTagName: 'strong'
+    elementTagName: 'strong',
+    removeClass: true
 });
 editor.init();
 console.log(editor);

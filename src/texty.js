@@ -155,6 +155,35 @@ function Texty(element) {
         _this.onChange();
     };
     _this.getOutput = function () {
+        var children = texty.utils.findChildren(_element);
+        // remove classes if needed
+        Object.keys(appliers).map(function (name, index) {
+            var removeClass = appliers[name].private.options.removeClass;
+            if (removeClass) {
+                var tagName = appliers[name].private.options.elementTagName || 'SPAN';
+                console.log(tagName);
+                for (var i = 0; i < children.length; i++) {
+                    var node = children[i];
+                    if (node.nodeName == tagName && node.classList.contains(name)) {
+                        node.classList.remove(name);
+                    }
+                }
+            }
+        });
+        // remove unused attributes
+        for (var i = 0; i < children.length; i++) {
+            var node = children[i];
+            var attributesToRemove = [];
+            for (var o = 0; o < node.attributes.length; o++) {
+                var attributeName = node.attributes[o].name;
+                if (node.getAttribute(attributeName) === "") {
+                    attributesToRemove.push(attributeName);
+                }
+            }
+            for (o = 0; o < attributesToRemove.length; o++) {
+                node.removeAttribute(attributesToRemove[o]);
+            }
+        }
         return _element.innerHTML;
     };
     _this.setBlockNodeTag = function (tagName) {
