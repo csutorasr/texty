@@ -297,6 +297,22 @@ function Texty(element) {
             referenceNode = newNode;
         }
     };
+    _this.insertLink = function (href, text) {
+        text = text || 'Link';
+        var sel = rangy.getSelection();
+        if (sel.rangeCount > 0) {
+            var range = sel.getRangeAt(0);
+            var anchor = document.createElement("A");
+            anchor.href = href;
+            anchor.textContent = range.toString();
+            if (anchor.textContent === '') {
+                anchor.textContent = text;
+            }
+            range.deleteContents();
+            range.insertNode(anchor);
+            return anchor;
+        }
+    };
     _this.keyboardShortcuts = function (e) {
         var evtobj = window.event ? event : e;
         if (evtobj.ctrlKey) {
