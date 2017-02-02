@@ -278,6 +278,25 @@ function Texty(element) {
             }
         }
     };
+    _this.insertText = function (text) {
+        if (!Array.isArray(text)) {
+            text = text.split("\n");
+        }
+        var blockNodes = getSelectedBlockNodes();
+        var referenceNode;
+        if (blockNodes.length > 0) {
+            referenceNode = blockNodes[blockNodes.length - 1];
+        }
+        else {
+            referenceNode = _element.children[_element.children.length - 1];
+        }
+        while (text.length > 0) {
+            var newNode = document.createElement('P');
+            newNode.textContent = text.shift();
+            referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+            referenceNode = newNode;
+        }
+    };
     _this.keyboardShortcuts = function (e) {
         var evtobj = window.event ? event : e;
         if (evtobj.ctrlKey) {
