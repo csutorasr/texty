@@ -102,6 +102,7 @@ function Texty(element) {
         }
     };
     _this.onSelectionEnds = function () {
+        // set active appliers
         while (_this.activeAppliers.length > 0) {
             _this.activeAppliers.pop();
         }
@@ -110,6 +111,18 @@ function Texty(element) {
                 _this.activeAppliers.push(name);
             }
         });
+        // getAlign
+        var blockNodes = getSelectedBlockNodes();
+        if (blockNodes.length > 0) {
+            _this.align = blockNodes[0].style.textAlign || 'left';
+            for (var o = 1; o < blockNodes.length; ++o) {
+                if ((blockNodes[o].style.textAlign || 'left') !== _this.align) {
+                    _this.align = undefined;
+                    break;
+                }
+            }
+        }
+        // run callbacks
         for (var i = 0; i < callbacks.length; i++) {
             callbacks[i]();
         }
@@ -257,18 +270,6 @@ function Texty(element) {
         }
         _this.onChange();
     };
-    _this.getAlign = function () {
-        var blockNodes = getSelectedBlockNodes();
-        if (blockNodes.length > 0) {
-            var type = blockNodes[0].style.textAlign || 'left';
-            for (var i = 1; i < blockNodes.length; ++i) {
-                if ((blockNodes[i].style.textAlign || 'left') !== type) {
-                    return undefined;
-                }
-            }
-            return type;
-        }
-    };
     _this.removeFormatting = function () {
         var selectedNodes = getSelectedNodes();
         for (var i = 0; i < selectedNodes.length; i++) {
@@ -345,6 +346,7 @@ function Texty(element) {
     };
     _this.isImageSelected = false;
     _this.isLinkSelected = false;
+    _this.align = undefined;
     _this.activeAppliers = [];
 }
 Texty.prototype.init = function () {
