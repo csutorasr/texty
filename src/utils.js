@@ -11,4 +11,13 @@ function LoadUtils() {
             return texty.utils.inLineTagNames.indexOf(node.nodeName) !== -1;
         });
     };
+    texty.utils.findChildren = function(element) {
+        // [].slice.call() - HTMLCollection to Array
+        var children = [].slice.call(element.children), found = 0;
+        while (children.length > found) {
+            children = children.concat([].slice.call(children[found].children));
+            found++;
+        }
+        return children;
+    };
 }
