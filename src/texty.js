@@ -2,7 +2,7 @@ function Texty(element) {
     var _element = element;
     var appliers = {};
     var _this = this;
-    var getSelectedNodes = function() {
+    var getSelectedNodes = function () {
         var sel = rangy.getSelection();
         var selectedNodes = [];
         for (var i = 0; i < sel.rangeCount; ++i) {
@@ -59,8 +59,19 @@ function Texty(element) {
     _this.getOutput = function () {
         return _element.innerHTML;
     };
-    _this.setBlockNodeTag = function(tagName) {
+    _this.setBlockNodeTag = function (tagName) {
         var blockNodes = texty.utils.filterBlockNodes(getSelectedNodes());
+        for (var i = 0; i < blockNodes.length; ++i) {
+            var blockNode = blockNodes[i];
+            var newNode = document.createElement(tagName);
+            while (blockNode.firstChild) {
+                newNode.appendChild(blockNode.firstChild);
+            }
+            for (var index = blockNode.attributes.length - 1; index >= 0; --index) {
+                newNode.attributes.setNamedItem(blockNode.attributes[index].cloneNode());
+            }
+            blockNode.parentNode.replaceChild(newNode, blockNode);
+        }
     };
     _this.isImageSelected = false;
     _this.isLinkSelected = false;
