@@ -11,7 +11,7 @@ function LoadUtils() {
             return texty.utils.inLineTagNames.indexOf(node.nodeName) !== -1;
         });
     };
-    texty.utils.findChildren = function(element) {
+    texty.utils.findChildren = function (element) {
         // [].slice.call() - HTMLCollection to Array
         var children = [].slice.call(element.children), found = 0;
         while (children.length > found) {
