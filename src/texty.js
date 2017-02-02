@@ -303,6 +303,7 @@ function Texty(element) {
         if (sel.rangeCount > 0) {
             var range = sel.getRangeAt(0);
             var anchor = document.createElement("A");
+            anchor.addEventListener('click', linkSelected);
             anchor.href = href;
             anchor.textContent = range.toString();
             if (anchor.textContent === '') {
@@ -311,6 +312,18 @@ function Texty(element) {
             range.deleteContents();
             range.insertNode(anchor);
             return anchor;
+        }
+    };
+    _this.insertImage = function (src) {
+        var sel = rangy.getSelection();
+        if (sel.rangeCount > 0) {
+            var range = sel.getRangeAt(0);
+            range.collapse(false);
+            var image = document.createElement("img");
+            image.addEventListener('click', imageSelected);
+            image.src = src;
+            range.insertNode(image);
+            return image;
         }
     };
     _this.keyboardShortcuts = function (e) {

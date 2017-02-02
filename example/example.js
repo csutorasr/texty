@@ -1,6 +1,6 @@
 var editor = texty.init(document.getElementById('editor'));
 editor.addCallback(function () {
-    console.log(editor.activeAppliers);
+    console.log(editor);
 });
 editor.addApplier('bold', {
     elementTagName: 'strong',
