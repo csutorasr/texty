@@ -26,26 +26,34 @@ function Texty(element) {
     _this.element = function () {
         return _element;
     };
-    _this.addApplier = function (name, tagName, options) {
-        var applier = rangy.createClassApplier(name);
+    _this.addApplier = function (name, options) {
+        var applier = rangy.createClassApplier(name, options);
+        if (options && options.elementTagName) {
+            options.elementTagName = options.elementTagName.toUpperCase();
+        }
         appliers[name] = {
-            toggle: function () {
-                applier.toggleSelection();
+            public: {
+                toggle: function () {
+                    applier.toggleSelection();
+                },
+                apply: function () {
+                    applier.applyToSelection();
+                },
+                remove: function () {
+                    applier.undoToSelection();
+                },
+                is: function () {
+                    return applier.isAppliedToSelection();
+                }
             },
-            apply: function () {
-                applier.applyToSelection();
-            },
-            remove: function () {
-                applier.undoToSelection();
-            },
-            is: function () {
-                return applier.isAppliedToSelection();
+            private: {
+                options: options
             }
         };
     };
     _this.getApplier = function (name) {
         if (appliers[name] !== undefined) {
-            return appliers[name];
+            return appliers[name].public;
         }
     };
     _this.onSelectionEnds = function () {
@@ -55,7 +63,7 @@ function Texty(element) {
             _this.activeAppliers.pop();
         }
         Object.keys(appliers).map(function (name, index) {
-            if (appliers[name].is()) {
+            if (appliers[name].public.is()) {
                 _this.activeAppliers.push(name);
             }
         });
@@ -100,7 +108,27 @@ function Texty(element) {
         _this.selectionChanged = callback;
     };
     _this.parseInput = function (input) {
-        _element.innerHTML = input;
+        if (input !== undefined) {
+            _element.innerHTML = input;
+        }
+        // [].slice.call() - HTMLCollection to array
+        var children = [].slice.call(_element.children), found = 0;
+        while (children.length > found) {
+            children = children.concat([].slice.call(children[found].children));
+            found++;
+        }
+        Object.keys(appliers).map(function (name, index) {
+            var tagName = appliers[name].private.options.elementTagName;
+            if (tagName && tagName != 'SPAN') {
+                for(var i = 0; i < children.length; i++) {
+                    var node = children[i];
+                    console.log(node.nodeName,tagName);
+                    if (node.nodeName == tagName && !node.classList.contains(name)) {
+                        node.classList.add(name);
+                    }
+                }
+            }
+        });
         versionFallbackNeeded = false;
         _this.onChange();
     };
@@ -145,7 +173,6 @@ function Texty(element) {
     _this.isImageSelected = false;
     _this.isLinkSelected = false;
     _this.activeAppliers = [];
-    _this.init();
 }
 Texty.prototype.init = function () {
     var element = this.element();
@@ -154,6 +181,7 @@ Texty.prototype.init = function () {
     element.addEventListener('input', this.onChange);
     document.addEventListener('mouseup', this.onSelectionEnds);
     element.addEventListener('keyup', this.keyboardShortcuts);
+    this.parseInput();
     this.onChange();
 };
 Texty.prototype.destory = function () {
