@@ -15,6 +15,33 @@ function Texty(element) {
             }
         }
     };
+    var imageSelected = function () {
+        _this.isImageSelected = true;
+        _this.selectedImage = this;
+        _this.onSelectionEnds();
+    }, linkSelected = function () {
+        console.log('hello');
+        _this.isLinkSelected = true;
+        _this.selectedLink = this;
+        _this.onSelectionEnds();
+    };
+    var innerHTMLChanged = function () {
+        versionFallbackNeeded = false;
+        _this.isImageSelected = false;
+        _this.isLinkSelected = false;
+        _this.selectedImage = undefined;
+        _this.selectedLink = undefined;
+        var children = texty.utils.findChildren(_element);
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            if (child.nodeName == "IMG") {
+                child.addEventListener('click', imageSelected);
+            }
+            if (child.nodeName == "A") {
+                child.addEventListener('click', linkSelected);
+            }
+        }
+    };
     var getSelectedNodes = function () {
         var sel = rangy.getSelection();
         var selectedNodes = [];
@@ -57,8 +84,6 @@ function Texty(element) {
         }
     };
     _this.onSelectionEnds = function () {
-        _this.isImageSelected = false; // TODO: check
-        _this.isLinkSelected = false; // TODO: check
         while (_this.activeAppliers.length > 0) {
             _this.activeAppliers.pop();
         }
@@ -88,7 +113,7 @@ function Texty(element) {
         if (_this.isRedoable()) {
             currentVersion++;
             _element.innerHTML = versions[currentVersion - 1];
-            versionFallbackNeeded = false;
+            innerHTMLChanged();
         }
     };
     _this.isRedoable = function () {
@@ -98,7 +123,7 @@ function Texty(element) {
         if (_this.isUndoable()) {
             currentVersion--;
             _element.innerHTML = versions[currentVersion - 1];
-            versionFallbackNeeded = false;
+            innerHTMLChanged();
         }
     };
     _this.isUndoable = function () {
@@ -111,25 +136,19 @@ function Texty(element) {
         if (input !== undefined) {
             _element.innerHTML = input;
         }
-        // [].slice.call() - HTMLCollection to array
-        var children = [].slice.call(_element.children), found = 0;
-        while (children.length > found) {
-            children = children.concat([].slice.call(children[found].children));
-            found++;
-        }
+        var children = texty.utils.findChildren(_element);
         Object.keys(appliers).map(function (name, index) {
             var tagName = appliers[name].private.options.elementTagName;
             if (tagName && tagName != 'SPAN') {
-                for(var i = 0; i < children.length; i++) {
+                for (var i = 0; i < children.length; i++) {
                     var node = children[i];
-                    console.log(node.nodeName,tagName);
                     if (node.nodeName == tagName && !node.classList.contains(name)) {
                         node.classList.add(name);
                     }
                 }
             }
         });
-        versionFallbackNeeded = false;
+        innerHTMLChanged();
         _this.onChange();
     };
     _this.getOutput = function () {
