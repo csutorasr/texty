@@ -230,6 +230,24 @@ function Texty(element) {
         }
         _this.onChange();
     };
+    _this.increaseIndent = function (type) {
+        var blockNodes = getSelectedBlockNodes();
+        for (var i = 0; i < blockNodes.length; ++i) {
+            var blockNode = blockNodes[i];
+            blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) + 20) + 'px';
+        }
+        _this.onChange();
+    };
+    _this.decreaseIndent = function (type) {
+        var blockNodes = getSelectedBlockNodes();
+        for (var i = 0; i < blockNodes.length; ++i) {
+            var blockNode = blockNodes[i];
+            blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) - 20) + 'px';
+            if (parseFloat(blockNode.style.marginLeft || 0) < 0)
+                blockNode.style.marginLeft = '0px';
+        }
+        _this.onChange();
+    };
     _this.setAlign = function (type) {
         var blockNodes = getSelectedBlockNodes();
         for (var i = 0; i < blockNodes.length; ++i) {
