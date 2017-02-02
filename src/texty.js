@@ -19,11 +19,11 @@ function Texty(element) {
     var imageSelected = function () {
         _this.isImageSelected = true;
         _this.selectedImage = this;
-        _this.onSelectionEnds();
+        onSelectionEnds();
     }, linkSelected = function () {
         _this.isLinkSelected = true;
         _this.selectedLink = this;
-        _this.onSelectionEnds();
+        onSelectionEnds();
     };
     var innerHTMLChanged = function () {
         versionFallbackNeeded = false;
@@ -101,7 +101,7 @@ function Texty(element) {
             return appliers[name].public;
         }
     };
-    _this.onSelectionEnds = function () {
+    var onSelectionEnds = function () {
         // set active appliers
         while (_this.activeAppliers.length > 0) {
             _this.activeAppliers.pop();
@@ -131,7 +131,7 @@ function Texty(element) {
         _this.selectedImage = undefined;
         _this.selectedLink = undefined;
     };
-    _this.onChange = function (e) {
+    var onChange = function (e) {
         if (_this.isRedoable()) {
             versions = versions.filter(function (value, index) {
                 return index < currentVersion;
@@ -143,7 +143,7 @@ function Texty(element) {
         versions = versions.concat([]);
         currentVersion = versions.push(_element.innerHTML);
         versionFallbackNeeded = true;
-        _this.onSelectionEnds();
+        onSelectionEnds();
     };
     _this.redo = function () {
         if (_this.isRedoable()) {
@@ -191,7 +191,7 @@ function Texty(element) {
             }
         });
         innerHTMLChanged();
-        _this.onChange();
+        onChange();
     };
     _this.getOutput = function () {
         var element = _element.cloneNode(true);
@@ -242,7 +242,7 @@ function Texty(element) {
             }
             blockNode.parentNode.replaceChild(newNode, blockNode);
         }
-        _this.onChange();
+        onChange();
     };
     _this.increaseIndent = function (type) {
         var blockNodes = getSelectedBlockNodes();
@@ -250,7 +250,7 @@ function Texty(element) {
             var blockNode = blockNodes[i];
             blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) + 40) + 'px';
         }
-        _this.onChange();
+        onChange();
     };
     _this.decreaseIndent = function (type) {
         var blockNodes = getSelectedBlockNodes();
@@ -260,7 +260,7 @@ function Texty(element) {
             if (parseFloat(blockNode.style.marginLeft) <= 0)
                 blockNode.style.marginLeft = "";
         }
-        _this.onChange();
+        onChange();
     };
     _this.setAlign = function (type) {
         var blockNodes = getSelectedBlockNodes();
@@ -268,7 +268,7 @@ function Texty(element) {
             var blockNode = blockNodes[i];
             blockNode.style.textAlign = type;
         }
-        _this.onChange();
+        onChange();
     };
     _this.removeFormatting = function () {
         var selectedNodes = getSelectedNodes();
@@ -328,7 +328,7 @@ function Texty(element) {
             return image;
         }
     };
-    _this.keyboardShortcuts = function (e) {
+    var keyboardShortcuts = function (e) {
         var evtobj = window.event ? event : e;
         if (evtobj.ctrlKey) {
             if (evtobj.keyCode == 90) {
@@ -347,20 +347,20 @@ function Texty(element) {
     _this.init = function () {
         var element = this.element();
         element.setAttribute('contenteditable', 'true');
-        element.addEventListener('keyup', this.onSelectionEnds);
-        element.addEventListener('input', this.onChange);
-        document.addEventListener('mouseup', this.onSelectionEnds);
-        element.addEventListener('keyup', this.keyboardShortcuts);
+        element.addEventListener('keyup', onSelectionEnds);
+        element.addEventListener('input', onChange);
+        document.addEventListener('mouseup', onSelectionEnds);
+        element.addEventListener('keyup', keyboardShortcuts);
         this.parseInput();
-        this.onChange();
+        onChange();
     };
     _this.destory = function () {
         var element = this.element();
         element.removeAttribute('contenteditable');
-        element.removeEventListener('keyup', this.onSelectionEnds);
-        element.removeEventListener('input', this.onChange);
-        document.removeEventListener('mouseup', this.onSelectionEnds);
-        document.removeEventListener('keyup', this.keyboardShortcuts);
+        element.removeEventListener('keyup', onSelectionEnds);
+        element.removeEventListener('input', onChange);
+        document.removeEventListener('mouseup', onSelectionEnds);
+        document.removeEventListener('keyup', keyboardShortcuts);
     };
     _this.isImageSelected = false;
     _this.isLinkSelected = false;
