@@ -7,4 +7,3 @@ editor.addApplier('bold', {
     removeClass: true
 });
 editor.init();
-console.log(editor);
