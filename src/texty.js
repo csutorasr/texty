@@ -344,29 +344,29 @@ function Texty(element) {
             }
         }
     };
+    _this.init = function () {
+        var element = this.element();
+        element.setAttribute('contenteditable', 'true');
+        element.addEventListener('keyup', this.onSelectionEnds);
+        element.addEventListener('input', this.onChange);
+        document.addEventListener('mouseup', this.onSelectionEnds);
+        element.addEventListener('keyup', this.keyboardShortcuts);
+        this.parseInput();
+        this.onChange();
+    };
+    _this.destory = function () {
+        var element = this.element();
+        element.removeAttribute('contenteditable');
+        element.removeEventListener('keyup', this.onSelectionEnds);
+        element.removeEventListener('input', this.onChange);
+        document.removeEventListener('mouseup', this.onSelectionEnds);
+        document.removeEventListener('keyup', this.keyboardShortcuts);
+    };
     _this.isImageSelected = false;
     _this.isLinkSelected = false;
     _this.align = undefined;
     _this.activeAppliers = [];
 }
-Texty.prototype.init = function () {
-    var element = this.element();
-    element.setAttribute('contenteditable', 'true');
-    element.addEventListener('keyup', this.onSelectionEnds);
-    element.addEventListener('input', this.onChange);
-    document.addEventListener('mouseup', this.onSelectionEnds);
-    element.addEventListener('keyup', this.keyboardShortcuts);
-    this.parseInput();
-    this.onChange();
-};
-Texty.prototype.destory = function () {
-    var element = this.element();
-    element.removeAttribute('contenteditable');
-    element.removeEventListener('keyup', this.onSelectionEnds);
-    element.removeEventListener('input', this.onChange);
-    document.removeEventListener('mouseup', this.onSelectionEnds);
-    document.removeEventListener('keyup', this.keyboardShortcuts);
-};
 function LoadTexty() {
     rangy.init();
     texty = window.texty = {};
