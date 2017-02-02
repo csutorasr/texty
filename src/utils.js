@@ -20,7 +20,7 @@ function LoadUtils() {
         }
         return children;
     };
-    texty.utils.findFirstBlockParent = function(element) {
+    texty.utils.findFirstBlockParent = function (element) {
         while (texty.utils.blockTagNames.indexOf(element.nodeName) === -1) {
             element = element.parentNode;
         }

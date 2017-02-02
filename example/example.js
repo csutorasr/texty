@@ -1,8 +1,8 @@
 var editor = texty.init(document.getElementById('editor'));
-editor.onSelectionChanged(function() {
+editor.onSelectionChanged(function () {
     console.log(editor.activeAppliers);
 });
-editor.addApplier('bold',{
+editor.addApplier('bold', {
     elementTagName: 'strong',
     removeClass: true
 });

@@ -204,7 +204,7 @@ function Texty(element) {
         if (blockNodes.length === 0 && selectedNodes.length !== 0) {
             blockNodes.push(texty.utils.findFirstBlockParent(selectedNodes[0]));
         }
-        blockNodes = blockNodes.filter(function(node) {
+        blockNodes = blockNodes.filter(function (node) {
             return _element.contains(node);
         });
         for (var i = 0; i < blockNodes.length; ++i) {
