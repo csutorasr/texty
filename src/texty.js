@@ -268,6 +268,16 @@ function Texty(element) {
             return type;
         }
     };
+    _this.removeFormatting = function () {
+        var selectedNodes = getSelectedNodes();
+        for (var i = 0; i < selectedNodes.length; i++) {
+            var selectedNode = selectedNodes[i];
+            if (texty.utils.blockTagNames.indexOf(selectedNode.nodeName) === -1) {
+                var newNode = document.createTextNode(selectedNode.textContent);
+                selectedNode.parentNode.replaceChild(newNode, selectedNode);
+            }
+        }
+    };
     _this.keyboardShortcuts = function (e) {
         var evtobj = window.event ? event : e;
         if (evtobj.ctrlKey) {
