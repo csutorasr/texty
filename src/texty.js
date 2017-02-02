@@ -234,7 +234,7 @@ function Texty(element) {
         var blockNodes = getSelectedBlockNodes();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
-            blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) + 20) + 'px';
+            blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) + 40) + 'px';
         }
         _this.onChange();
     };
@@ -242,9 +242,9 @@ function Texty(element) {
         var blockNodes = getSelectedBlockNodes();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
-            blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) - 20) + 'px';
-            if (parseFloat(blockNode.style.marginLeft || 0) < 0)
-                blockNode.style.marginLeft = '0px';
+            blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) - 40) + 'px';
+            if (parseFloat(blockNode.style.marginLeft) <= 0)
+                blockNode.style.marginLeft = "";
         }
         _this.onChange();
     };
