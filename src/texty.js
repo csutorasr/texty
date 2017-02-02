@@ -45,7 +45,12 @@ function Texty(element) {
         var sel = rangy.getSelection();
         var selectedNodes = [];
         for (var i = 0; i < sel.rangeCount; ++i) {
-            selectedNodes = selectedNodes.concat(sel.getRangeAt(i).getNodes());
+            var range = sel.getRangeAt(i);
+            var rangeSelectedNodes = range.getNodes();
+            if (range.collapsed) {
+                rangeSelectedNodes.push(range.startContainer);
+            }
+            selectedNodes = selectedNodes.concat(rangeSelectedNodes);
         }
         return selectedNodes;
     };
@@ -155,13 +160,13 @@ function Texty(element) {
         _this.onChange();
     };
     _this.getOutput = function () {
-        var children = texty.utils.findChildren(_element);
+        var element = _element.cloneNode(true);
+        var children = texty.utils.findChildren(element);
         // remove classes if needed
         Object.keys(appliers).map(function (name, index) {
             var removeClass = appliers[name].private.options.removeClass;
             if (removeClass) {
                 var tagName = appliers[name].private.options.elementTagName || 'SPAN';
-                console.log(tagName);
                 for (var i = 0; i < children.length; i++) {
                     var node = children[i];
                     if (node.nodeName == tagName && node.classList.contains(name)) {
@@ -184,14 +189,18 @@ function Texty(element) {
                 node.removeAttribute(attributesToRemove[o]);
             }
         }
-        return _element.innerHTML;
+        return element.innerHTML;
     };
     _this.setBlockNodeTag = function (tagName) {
         if (texty.utils.blockTagNames.indexOf(tagName) === -1) {
             console.error(tagName + " is not a valid block element. Please add it to block tagnames.");
             return;
         }
-        var blockNodes = texty.utils.filterBlockNodes(getSelectedNodes());
+        var selectedNodes = getSelectedNodes();
+        var blockNodes = texty.utils.filterBlockNodes(selectedNodes);
+        if (blockNodes.length === 0 && selectedNodes.length !== 0) {
+            blockNodes.push(texty.utils.findFirstBlockParent(selectedNodes[0]));
+        }
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
             var newNode = document.createElement(tagName);
