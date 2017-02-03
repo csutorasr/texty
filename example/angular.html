@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Texty AngularJS example</title>
+        <style>
+            button.active {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div ng-controller="ExampleCtrl">
+            <div>
+                <button ng-repeat="applierName in editor.appliers" ng-click="editor.getApplier(applierName).toggle()" ng-class="{ 'active':editor.getApplier(applierName).is()}">
+                    {{applierName}}
+                </button>
+            </div>
+            <div texty="editor" html="html">
+            </div>
+            {{editor}}
+        </div>
+        <script src="../build/rangy.min.js"></script>
+        <script src="../build/texty.min.js"></script>
+        <script src="../node_modules/angular/angular.min.js"></script>
+        <script src="../adapters/texty-angular-adapter.js"></script>
+        <script src="./angular.js"></script>
+    </body>
+</html>
