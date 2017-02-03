@@ -225,7 +225,7 @@ function Texty(element) {
         }
         return element.innerHTML;
     };
-    _this.setBlockNodeTag = function (tagName) {
+    _this.setBlockNodeTagName = function (tagName) {
         if (texty.utils.blockTagNames.indexOf(tagName) === -1) {
             console.error(tagName + " is not a valid block element. Please add it to block tagnames.");
             return;

@@ -41,13 +41,13 @@ document.getElementById('bold').addEventListener('click',function () {
     editor.getApplier('bold').toggle();
 });
 document.getElementById('h1').addEventListener('click',function () {
-    editor.setBlockNodeTag('H1');
+    editor.setBlockNodeTagName('H1');
 });
 document.getElementById('h2').addEventListener('click',function () {
-    editor.setBlockNodeTag('H2');
+    editor.setBlockNodeTagName('H2');
 });
 document.getElementById('p').addEventListener('click',function () {
-    editor.setBlockNodeTag('P');
+    editor.setBlockNodeTagName('P');
 });
 document.getElementById('redo').addEventListener('click',function () {
     editor.redo();
