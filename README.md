@@ -1,10 +1,10 @@
 # texty
 Fully customizable WYSIWYG html editor with custom tags.
+The library does not use the browsers build-in functions to edit the html code, so everything can be customized. If you are in favor of HTML5 `STRONG` element you do not have to use build-in `B` element of the browser.
 
 It's using [rangy](https://github.com/timdown/rangy) for selection handling and class allpier as helper function.
 
 JQuery and angular adapters are coming soon.
-
 It is going to available on npm soon.
 
 # Example
@@ -30,6 +30,17 @@ document.getElementById('bold').addEventListener('click',function () {
 editor.init();
 </script>
 ```
+
+Fully working example can be found in the exmaple directory.
+
+# Build
+
+```Shell
+npm install
+npm run build
+```
+
+Afterwards in the build directory the rangy with class applier and texty modules can be found, that is needed to run the Texty library.
 
 # API
 
