@@ -13,6 +13,12 @@ module.exports = function (grunt) {
                     reporter: require('jshint-stylish')
                 },
                 build: ['adapters/*.js']
+            },
+            examples: {
+                options: {
+                    reporter: require('jshint-stylish')
+                },
+                build: ['examples/*.js']
             }
         },
         uglify: {
@@ -45,6 +51,13 @@ module.exports = function (grunt) {
             adapters: {
                 files: ['adapters/*.js'],
                 tasks: ['jshint:adapters'],
+                options: {
+                    spawn: false,
+                },
+            },
+            examples: {
+                files: ['examples/*.js'],
+                tasks: ['jshint:examples'],
                 options: {
                     spawn: false,
                 },
