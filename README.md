@@ -31,7 +31,7 @@ editor.init();
 </script>
 ```
 
-Fully working example can be found in the exmaple directory.
+Fully working example can be found in the exmaple directory. After [Build](#build) you can run the exmaples.
 
 # Build
 
