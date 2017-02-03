@@ -68,6 +68,7 @@ function Texty(element) {
     _this.element = function () {
         return _element;
     };
+    _this.appliers = [];
     _this.addApplier = function (name, options) {
         if (options && !options.applyToEditableOnly) {
             options.applyToEditableOnly = true;
@@ -95,6 +96,7 @@ function Texty(element) {
                 options: options
             }
         };
+        _this.appliers.push(name);
     };
     _this.getApplier = function (name) {
         if (appliers[name] !== undefined) {

@@ -196,6 +196,10 @@ Indicates the alignment of the selected block elements. If cannot be determined 
 
 An array of the name of the active appliers.
 
+### `appliers`: string[]
+
+An array of the name of the appliers.
+
 # Known issues
 
 Sometimes history is not working.
