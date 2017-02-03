@@ -46,21 +46,21 @@ module.exports = function (grunt) {
                 tasks: ['build'],
                 options: {
                     spawn: false,
-                },
+                }
             },
             adapters: {
                 files: ['adapters/*.js'],
                 tasks: ['jshint:adapters'],
                 options: {
                     spawn: false,
-                },
+                }
             },
             examples: {
                 files: ['examples/*.js'],
                 tasks: ['jshint:examples'],
                 options: {
                     spawn: false,
-                },
+                }
             }
         },
         clean: {
