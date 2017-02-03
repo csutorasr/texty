@@ -9,7 +9,7 @@ It is going to available on npm soon.
 
 # Example
 
-```
+```HTML
 <button id="bold">Bold</button>
 <div id="editor">
     <h1>Heading</h1>
@@ -56,7 +56,7 @@ Returns the element that is used as the main texty node.
 
 ##### JS:
 
-```
+```JavaScript
 var editor = texty.init(document.getElementById('editor'));
 editor.addApplier('bold', {
     elementTagName: 'strong',
@@ -66,19 +66,19 @@ editor.addApplier('bold', {
 
 ##### input:
 
-```
+```HTML
 <strong>example</strong>
 ```
 
 ##### during edit mode:
 
-```
+```HTML
 <strong class="bold">example</strong>
 ```
 
 ##### output: (with `removeClass: true`)
 
-```
+```HTML
 <strong>example</strong>
 ```
 
