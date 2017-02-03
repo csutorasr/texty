@@ -2,10 +2,18 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         jshint: {
-            options: {
-                reporter: require('jshint-stylish')
+            src: {
+                options: {
+                    reporter: require('jshint-stylish')
+                },
+                build: ['Gruntfile.js', 'src/**/*.js']
             },
-            build: ['Gruntfile.js', 'src/**/*.js']
+            adapters: {
+                options: {
+                    reporter: require('jshint-stylish')
+                },
+                build: ['adapters/*.js']
+            }
         },
         uglify: {
             texty: {
@@ -34,6 +42,13 @@ module.exports = function (grunt) {
                     spawn: false,
                 },
             },
+            adapters: {
+                files: ['adapters/*.js'],
+                tasks: ['jshint:adapters'],
+                options: {
+                    spawn: false,
+                },
+            }
         },
         clean: {
             build: ['build'],
@@ -55,5 +70,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.registerTask('deploy', ['build', 'uglify:rangy']);
-    grunt.registerTask('build', ['concat', 'jshint', 'uglify:texty']);
+    grunt.registerTask('build', ['concat', 'jshint:src', 'uglify:texty']);
 };
