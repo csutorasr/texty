@@ -360,7 +360,7 @@ function Texty(element) {
         element.removeEventListener('keyup', onSelectionEnds);
         element.removeEventListener('input', onChange);
         document.removeEventListener('mouseup', onSelectionEnds);
-        document.removeEventListener('keyup', keyboardShortcuts);
+        element.removeEventListener('keyup', keyboardShortcuts);
     };
     _this.isImageSelected = false;
     _this.isLinkSelected = false;
