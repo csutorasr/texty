@@ -311,8 +311,9 @@ function Texty(element) {
         var sel = rangy.getSelection();
         if (sel.rangeCount > 0) {
             var selectedNodes = getSelectedNodes();
+            var range = sel.getRangeAt(0);
             var anchor;
-            if (selectedNodes.length === 0) {
+            if (selectedNodes.length === 0 || range.toString() === '') {
                 anchor = document.createElement("A");
                 anchor.addEventListener('click', linkSelected);
                 anchor.href = href;
