@@ -310,16 +310,30 @@ function Texty(element) {
         text = text || 'Link';
         var sel = rangy.getSelection();
         if (sel.rangeCount > 0) {
-            var range = sel.getRangeAt(0);
-            var anchor = document.createElement("A");
-            anchor.addEventListener('click', linkSelected);
-            anchor.href = href;
-            anchor.textContent = range.toString();
-            if (anchor.textContent === '') {
+            var selectedNodes = getSelectedNodes();
+            var anchor;
+            if (selectedNodes.length === 0) {
+                anchor = document.createElement("A");
+                anchor.addEventListener('click', linkSelected);
+                anchor.href = href;
                 anchor.textContent = text;
+                range.deleteContents();
+                range.insertNode(anchor);
             }
-            range.deleteContents();
-            range.insertNode(anchor);
+            else {
+                var applier = rangy.createClassApplier('texty-link-applier', {
+                    elementTagName: 'a',
+                    applyToEditableOnly: true
+                });
+                applier.applyToSelection();
+                var anchors = _element.querySelectorAll('.texty-link-applier');
+                for (var i = 0; i < anchors.length; i++) {
+                    anchors[i].href = href;
+                    anchors[i].addEventListener('click', linkSelected);
+                    anchors[i].classList.remove('texty-link-applier');
+                }
+                anchor = anchors[0];
+            }
             return anchor;
         }
     };
