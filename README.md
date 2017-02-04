@@ -5,9 +5,9 @@ The library does not use the browsers build-in functions to edit the html code, 
 JQuery adapter is coming soon.
 It is going to available on npm soon.
 
-# [Examples](wiki/examples)
+# [Examples](https://github.com/csutorasr/texty/wiki/examples)
 
-# [Build](wiki/build)
+# [Build](https://github.com/csutorasr/texty/wiki/build)
 
 It's using [rangy](https://github.com/timdown/rangy) for selection handling and class allpier as helper function.
 
