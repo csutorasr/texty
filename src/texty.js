@@ -113,14 +113,19 @@ function Texty(element) {
                 _this.activeAppliers.push(name);
             }
         });
-        // getAlign
+        // getAlign, and nodeName
         var blockNodes = getSelectedBlockNodes();
+        _this.align = undefined;
+        _this.blockNodeName = undefined;
         if (blockNodes.length > 0) {
             _this.align = blockNodes[0].style.textAlign || 'left';
+            _this.blockNodeName = blockNodes[0].nodeName;
             for (var o = 1; o < blockNodes.length; ++o) {
                 if ((blockNodes[o].style.textAlign || 'left') !== _this.align) {
                     _this.align = undefined;
-                    break;
+                }
+                if (blockNodes[o].nodeName !== _this.blockNodeName) {
+                    _this.blockNodeName = undefined;
                 }
             }
         }
@@ -366,6 +371,7 @@ function Texty(element) {
     };
     _this.isImageSelected = false;
     _this.isLinkSelected = false;
+    _this.blockNodeName = undefined;
     _this.align = undefined;
     _this.activeAppliers = [];
 }
