@@ -147,8 +147,10 @@ function Texty(element) {
         else {
             olderVersions = versions;
         }
-        versions = versions.concat([]);
-        currentVersion = versions.push(_element.innerHTML);
+        if (_element.innerHTML !== versions[versions.length - 1]) {
+            versions = versions.concat([]);
+            currentVersion = versions.push(_element.innerHTML);
+        }
         versionFallbackNeeded = true;
         onSelectionEnds();
     };
