@@ -6,7 +6,6 @@ app.run(['textySvc', function (textySvc) {
     });
 }]);
 app.controller('ExampleCtrl', ['$scope', function ($scope) {
-    $scope.editor = '';
     $scope.html = "<h1>Heading</h1><p>Paragraph <strong>strong</strong></p>";
 }]);
 angular.bootstrap(document, ['textyExample']);

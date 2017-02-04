@@ -12,7 +12,7 @@
     <body>
         <div ng-controller="ExampleCtrl">
             <div>
-                <button ng-repeat="applierName in editor.appliers" ng-click="editor.getApplier(applierName).toggle()" ng-class="{ 'active':editor.getApplier(applierName).is()}">
+                <button ng-repeat="(applierName,applier) in editor.appliers" ng-click="applier.toggle()" ng-class="{ 'active':applier.is()}">
                     {{applierName}}
                 </button>
             </div>
