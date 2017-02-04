@@ -196,9 +196,9 @@ Indicates the alignment of the selected block elements. If cannot be determined 
 
 An array of the name of the active appliers.
 
-### `appliers`: string[]
+### `appliers`: {}
 
-An array of the name of the appliers.
+An object where the key is the name of the appliers and public functions of the applier are the value.
 
 # Known issues
 
