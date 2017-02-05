@@ -368,6 +368,19 @@ function Texty(element) {
             }
         }
     };
+    var keyboardRemap = function(e) {
+        var evtobj = window.event ? event : e;
+        if (evtobj.keyCode == 9) {
+            if (evtobj.shiftKey) {
+                _this.decreaseIndent();
+            }
+            else {
+                _this.increaseIndent();
+            }
+            e.preventDefault();
+            return false;
+        }
+    }
     _this.init = function () {
         var element = this.element();
         element.setAttribute('contenteditable', 'true');
@@ -375,6 +388,7 @@ function Texty(element) {
         element.addEventListener('input', onChange);
         document.addEventListener('mouseup', onSelectionEnds);
         element.addEventListener('keyup', keyboardShortcuts);
+        element.addEventListener('keydown', keyboardRemap);
         this.parseInput();
         onChange();
     };
@@ -385,6 +399,7 @@ function Texty(element) {
         element.removeEventListener('input', onChange);
         document.removeEventListener('mouseup', onSelectionEnds);
         element.removeEventListener('keyup', keyboardShortcuts);
+        element.removeEventListener('keydown', keyboardRemap);
     };
     _this.isImageSelected = false;
     _this.isLinkSelected = false;
