@@ -363,9 +363,6 @@ function Texty(element) {
                 versionfallback();
                 _this.redo();
             }
-            if (evtobj.keyCode == 86) {
-                // TODO: ctrl+V
-            }
         }
     };
     var keyboardRemap = function(e) {
