@@ -32,6 +32,12 @@ editor.addCallback(function () {
     if (editor.selectedLink) {
         editor.selectedLink.href = prompt('new href=','/asdnew');
     }
+    document.getElementById('h1').classList.remove('active');
+    document.getElementById('h2').classList.remove('active');
+    document.getElementById('p').classList.remove('active');
+    if (editor.blockNodeName) {
+        document.getElementById(editor.blockNodeName.toLowerCase()).classList.add('active');
+    }
 });
 editor.addApplier('bold', {
     elementTagName: 'strong',
