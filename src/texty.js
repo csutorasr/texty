@@ -313,6 +313,11 @@ function Texty(element) {
         var sel = rangy.getSelection();
         if (sel.rangeCount > 0) {
             var selectedNodes = getSelectedNodes();
+            for(var i = 0; i < selectedNodes.length; i++) {
+                if (!_element.contains(selectedNodes[i])) {
+                    return false;
+                }
+            }
             var range = sel.getRangeAt(0);
             var anchor;
             if (selectedNodes.length === 0 || range.toString() === '') {
@@ -341,6 +346,12 @@ function Texty(element) {
         }
     };
     _this.insertImage = function (src) {
+        var selectedNodes = getSelectedNodes();
+        for(var i = 0; i < selectedNodes.length; i++) {
+            if (!_element.contains(selectedNodes[i])) {
+                return false;
+            }
+        }
         var sel = rangy.getSelection();
         if (sel.rangeCount > 0) {
             var range = sel.getRangeAt(0);
