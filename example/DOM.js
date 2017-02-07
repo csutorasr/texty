@@ -36,7 +36,10 @@ editor.addCallback(function () {
     document.getElementById('h2').classList.remove('active');
     document.getElementById('p').classList.remove('active');
     if (editor.blockNodeName) {
-        document.getElementById(editor.blockNodeName.toLowerCase()).classList.add('active');
+        var e = document.getElementById(editor.blockNodeName.toLowerCase());
+        if (e) {
+            e.classList.add('active');
+        }
     }
 });
 editor.addApplier('bold', {
