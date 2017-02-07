@@ -2,20 +2,9 @@ function Texty(element) {
     var _element = element;
     var appliers = {};
     var _this = this;
-    var versions = [], olderVersions = [], versionFallbackNeeded = false;
+    var versions = [];
     var callbacks = [];
     var currentVersion = 0;
-    var versionfallback = function () {
-        if (versionFallbackNeeded) {
-            versions = olderVersions.concat([]);
-            if (currentVersion > versions.length) {
-                currentVersion = versions.length;
-            }
-            else {
-                currentVersion--;
-            }
-        }
-    };
     var imageSelected = function () {
         _this.isImageSelected = true;
         _this.selectedImage = this;
@@ -26,7 +15,6 @@ function Texty(element) {
         onSelectionEnds();
     };
     var innerHTMLChanged = function () {
-        versionFallbackNeeded = false;
         _this.isImageSelected = false;
         _this.isLinkSelected = false;
         _this.selectedImage = undefined;
@@ -144,14 +132,10 @@ function Texty(element) {
                 return index < currentVersion;
             });
         }
-        else {
-            olderVersions = versions;
-        }
         if (_element.innerHTML !== versions[versions.length - 1]) {
             versions = versions.concat([]);
             currentVersion = versions.push(_element.innerHTML);
         }
-        versionFallbackNeeded = true;
         onSelectionEnds();
     };
     _this.redo = function () {
@@ -363,19 +347,6 @@ function Texty(element) {
             return image;
         }
     };
-    var keyboardShortcuts = function (e) {
-        var evtobj = window.event ? event : e;
-        if (evtobj.ctrlKey) {
-            if (evtobj.keyCode == 90) {
-                versionfallback();
-                _this.undo();
-            }
-            if (evtobj.keyCode == 89) {
-                versionfallback();
-                _this.redo();
-            }
-        }
-    };
     var keyboardRemap = function(e) {
         var evtobj = window.event ? event : e;
         if (evtobj.keyCode == 9) {
@@ -388,6 +359,16 @@ function Texty(element) {
             e.preventDefault();
             return false;
         }
+        if (evtobj.ctrlKey) { // Ctrl +
+            if (evtobj.keyCode == 90) { // Z
+                _this.undo();
+                e.preventDefault();
+            }
+            if (evtobj.keyCode == 89) { // Y
+                _this.redo();
+                e.preventDefault();
+            }
+        }
     }
     _this.init = function () {
         var element = this.element();
@@ -395,7 +376,6 @@ function Texty(element) {
         element.addEventListener('keyup', onSelectionEnds);
         element.addEventListener('input', onChange);
         document.addEventListener('mouseup', onSelectionEnds);
-        element.addEventListener('keyup', keyboardShortcuts);
         element.addEventListener('keydown', keyboardRemap);
         this.parseInput();
         onChange();
@@ -406,7 +386,6 @@ function Texty(element) {
         element.removeEventListener('keyup', onSelectionEnds);
         element.removeEventListener('input', onChange);
         document.removeEventListener('mouseup', onSelectionEnds);
-        element.removeEventListener('keyup', keyboardShortcuts);
         element.removeEventListener('keydown', keyboardRemap);
     };
     _this.isImageSelected = false;
