@@ -224,6 +224,8 @@ function Texty(element) {
             return;
         }
         var blockNodes = getSelectedBlockNodes();
+        var sel = rangy.getSelection();
+        var range = rangy.createRange();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
             var newNode = document.createElement(tagName);
@@ -234,7 +236,14 @@ function Texty(element) {
                 newNode.attributes.setNamedItem(blockNode.attributes[index].cloneNode());
             }
             blockNode.parentNode.replaceChild(newNode, blockNode);
+            if (i == 0) {
+                range.setStartBefore(newNode);
+            }
+            if (i == blockNodes.length - 1) {
+                range.setEndAfter(newNode);
+            }
         }
+        sel.setSingleRange(range);
         onChange();
     };
     _this.increaseIndent = function (type) {
