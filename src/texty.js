@@ -50,7 +50,7 @@ function Texty(element) {
             blockNodes.push(texty.utils.findFirstBlockParent(selectedNodes[0]));
         }
         return blockNodes.filter(function (node) {
-            return _element.contains(node);
+            return _element.contains(node) && node != _element;
         });
     };
     _this.element = function () {
@@ -297,7 +297,7 @@ function Texty(element) {
         var sel = rangy.getSelection();
         if (sel.rangeCount > 0) {
             var selectedNodes = getSelectedNodes();
-            for(var i = 0; i < selectedNodes.length; i++) {
+            for (var i = 0; i < selectedNodes.length; i++) {
                 if (!_element.contains(selectedNodes[i])) {
                     return false;
                 }
@@ -331,7 +331,7 @@ function Texty(element) {
     };
     _this.insertImage = function (src) {
         var selectedNodes = getSelectedNodes();
-        for(var i = 0; i < selectedNodes.length; i++) {
+        for (var i = 0; i < selectedNodes.length; i++) {
             if (!_element.contains(selectedNodes[i])) {
                 return false;
             }
@@ -347,7 +347,7 @@ function Texty(element) {
             return image;
         }
     };
-    var keyboardRemap = function(e) {
+    var keyboardRemap = function (e) {
         var evtobj = window.event ? event : e;
         if (evtobj.keyCode == 9) {
             if (evtobj.shiftKey) {
@@ -360,13 +360,59 @@ function Texty(element) {
             return false;
         }
         if (evtobj.ctrlKey) { // Ctrl +
-            if (evtobj.keyCode == 90) { // Z
-                _this.undo();
-                e.preventDefault();
+            switch (evtobj.keyCode) {
+                case 90: // Z
+                    _this.undo();
+                    e.preventDefault();
+                    break;
+                case 89: // Y
+                    _this.redo();
+                    e.preventDefault();
+                    break;
+                case 66: // B
+                    if (appliers.bold) {
+                        appliers.bold.public.toggle();
+                        e.preventDefault();
+                    }
+                    break;
+                case 73: // I
+                    if (appliers.italics) {
+                        appliers.italics.public.toggle();
+                        e.preventDefault();
+                    }
+                    break;
             }
-            if (evtobj.keyCode == 89) { // Y
-                _this.redo();
-                e.preventDefault();
+        }
+        if (evtobj.altKey) {
+            switch (evtobj.keyCode) {
+                case 49: // 1
+                    _this.setBlockNodeTagName('H1');
+                    e.preventDefault();
+                    break;
+                case 50: // 2
+                    _this.setBlockNodeTagName('H2');
+                    e.preventDefault();
+                    break;
+                case 51: // 3
+                    _this.setBlockNodeTagName('H3');
+                    e.preventDefault();
+                    break;
+                case 52: // 4
+                    _this.setBlockNodeTagName('H4');
+                    e.preventDefault();
+                    break;
+                case 53: // 5
+                    _this.setBlockNodeTagName('H5');
+                    e.preventDefault();
+                    break;
+                case 54: // 6
+                    _this.setBlockNodeTagName('H6');
+                    e.preventDefault();
+                    break;
+                case 80: // P
+                    _this.setBlockNodeTagName('P');
+                    e.preventDefault();
+                    break;
             }
         }
     }
