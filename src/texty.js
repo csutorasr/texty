@@ -69,12 +69,15 @@ function Texty(element) {
             public: {
                 toggle: function () {
                     applier.toggleSelection();
+                    onSelectionEnds();
                 },
                 apply: function () {
                     applier.applyToSelection();
+                    onSelectionEnds();
                 },
                 remove: function () {
                     applier.undoToSelection();
+                    onSelectionEnds();
                 },
                 is: function () {
                     return applier.isAppliedToSelection();
