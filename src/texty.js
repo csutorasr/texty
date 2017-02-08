@@ -255,7 +255,7 @@ function Texty(element) {
         var range = rangy.createRange();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
-            blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) + 40) + 'px';
+            blockNode.style.textIndent = (parseFloat(blockNode.style.textIndent || 0) + 40) + 'px';
         }
         range.setStartBefore(blockNodes[0]);
         range.setEndAfter(blockNodes[blockNodes.length - 1]);
@@ -268,9 +268,9 @@ function Texty(element) {
         var range = rangy.createRange();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
-            blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) - 40) + 'px';
-            if (parseFloat(blockNode.style.marginLeft) <= 0)
-                blockNode.style.marginLeft = "";
+            blockNode.style.textIndent = (parseFloat(blockNode.style.textIndent || 0) - 40) + 'px';
+            if (parseFloat(blockNode.style.textIndent) <= 0)
+                blockNode.style.textIndent = "";
         }
         range.setStartBefore(blockNodes[0]);
         range.setEndAfter(blockNodes[blockNodes.length - 1]);
