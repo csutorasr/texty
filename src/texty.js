@@ -249,6 +249,14 @@ function Texty(element) {
         sel.setSingleRange(range);
         onChange();
     };
+    var toggleBlockNodeTagName = function (tagName) {
+        if (_this.blockNodeName == tagName) {
+            _this.setBlockNodeTagName("P");
+        }
+        else {
+            _this.setBlockNodeTagName(tagName);
+        }
+    }
     _this.increaseIndent = function (type) {
         var sel = rangy.getSelection();
         var blockNodes = getSelectedBlockNodes(sel);
@@ -402,9 +410,35 @@ function Texty(element) {
                         e.preventDefault();
                     }
                     break;
+                case 69: // E
+                    _this.setAlign('center');
+                    e.preventDefault();
+                    break;
                 case 73: // I
                     if (appliers.italics) {
                         appliers.italics.public.toggle();
+                        e.preventDefault();
+                    }
+                    break;
+                case 74: // J
+                    _this.setAlign('justify');
+                    e.preventDefault();
+                    break;
+                case 76: // L
+                    _this.setAlign('left');
+                    e.preventDefault();
+                    break;
+                case 77: // M
+                    _this.increaseIndent();
+                    e.preventDefault();
+                    break;
+                case 82: // R
+                    _this.setAlign('right');
+                    e.preventDefault();
+                    break;
+                case 85: // U
+                    if (appliers.underline) {
+                        appliers.underline.public.toggle();
                         e.preventDefault();
                     }
                     break;
@@ -413,31 +447,27 @@ function Texty(element) {
         if (evtobj.altKey) {
             switch (evtobj.keyCode) {
                 case 49: // 1
-                    _this.setBlockNodeTagName('H1');
+                    toggleBlockNodeTagName('H1');
                     e.preventDefault();
                     break;
                 case 50: // 2
-                    _this.setBlockNodeTagName('H2');
+                    toggleBlockNodeTagName('H2');
                     e.preventDefault();
                     break;
                 case 51: // 3
-                    _this.setBlockNodeTagName('H3');
+                    toggleBlockNodeTagName('H3');
                     e.preventDefault();
                     break;
                 case 52: // 4
-                    _this.setBlockNodeTagName('H4');
+                    toggleBlockNodeTagName('H4');
                     e.preventDefault();
                     break;
                 case 53: // 5
-                    _this.setBlockNodeTagName('H5');
+                    toggleBlockNodeTagName('H5');
                     e.preventDefault();
                     break;
                 case 54: // 6
-                    _this.setBlockNodeTagName('H6');
-                    e.preventDefault();
-                    break;
-                case 80: // P
-                    _this.setBlockNodeTagName('P');
+                    toggleBlockNodeTagName('H6');
                     e.preventDefault();
                     break;
             }
