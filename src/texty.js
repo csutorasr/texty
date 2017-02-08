@@ -30,8 +30,8 @@ function Texty(element) {
             }
         }
     };
-    var getSelectedNodes = function () {
-        var sel = rangy.getSelection();
+    var getSelectedNodes = function (sel) {
+        sel = sel || rangy.getSelection();
         var selectedNodes = [];
         for (var i = 0; i < sel.rangeCount; ++i) {
             var range = sel.getRangeAt(i);
@@ -43,8 +43,8 @@ function Texty(element) {
         }
         return selectedNodes;
     };
-    var getSelectedBlockNodes = function () {
-        var selectedNodes = getSelectedNodes();
+    var getSelectedBlockNodes = function (sel) {
+        var selectedNodes = getSelectedNodes(sel);
         var blockNodes = texty.utils.filterBlockNodes(selectedNodes);
         if (blockNodes.length === 0 && selectedNodes.length !== 0) {
             blockNodes.push(texty.utils.findFirstBlockParent(selectedNodes[0]));
@@ -223,8 +223,8 @@ function Texty(element) {
             console.error(tagName + " is not a valid block element. Please add it to block tagnames.");
             return;
         }
-        var blockNodes = getSelectedBlockNodes();
         var sel = rangy.getSelection();
+        var blockNodes = getSelectedBlockNodes(sel);
         var range = rangy.createRange();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
@@ -247,29 +247,44 @@ function Texty(element) {
         onChange();
     };
     _this.increaseIndent = function (type) {
-        var blockNodes = getSelectedBlockNodes();
+        var sel = rangy.getSelection();
+        var blockNodes = getSelectedBlockNodes(sel);
+        var range = rangy.createRange();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
             blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) + 40) + 'px';
         }
+        range.setStartBefore(blockNodes[0]);
+        range.setEndAfter(blockNodes[blockNodes.length - 1]);
+        sel.setSingleRange(range);
         onChange();
     };
     _this.decreaseIndent = function (type) {
-        var blockNodes = getSelectedBlockNodes();
+        var sel = rangy.getSelection();
+        var blockNodes = getSelectedBlockNodes(sel);
+        var range = rangy.createRange();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
             blockNode.style.marginLeft = (parseFloat(blockNode.style.marginLeft || 0) - 40) + 'px';
             if (parseFloat(blockNode.style.marginLeft) <= 0)
                 blockNode.style.marginLeft = "";
         }
+        range.setStartBefore(blockNodes[0]);
+        range.setEndAfter(blockNodes[blockNodes.length - 1]);
+        sel.setSingleRange(range);
         onChange();
     };
     _this.setAlign = function (type) {
-        var blockNodes = getSelectedBlockNodes();
+        var sel = rangy.getSelection();
+        var blockNodes = getSelectedBlockNodes(sel);
+        var range = rangy.createRange();
         for (var i = 0; i < blockNodes.length; ++i) {
             var blockNode = blockNodes[i];
             blockNode.style.textAlign = type;
         }
+        range.setStartBefore(blockNodes[0]);
+        range.setEndAfter(blockNodes[blockNodes.length - 1]);
+        sel.setSingleRange(range);
         onChange();
     };
     _this.removeFormatting = function () {
@@ -305,7 +320,7 @@ function Texty(element) {
         text = text || 'Link';
         var sel = rangy.getSelection();
         if (sel.rangeCount > 0) {
-            var selectedNodes = getSelectedNodes();
+            var selectedNodes = getSelectedNodes(sel);
             for (var i = 0; i < selectedNodes.length; i++) {
                 if (!_element.contains(selectedNodes[i])) {
                     return false;
