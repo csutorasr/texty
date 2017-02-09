@@ -382,6 +382,95 @@ function Texty(element) {
             return image;
         }
     };
+    _this.toggleListType = function (type) {
+        type = type || "UL";
+        var blockNodes = getSelectedBlockNodes();
+        var allSame = true;
+        for (var i = 0; i < blockNodes.length; i++) {
+            var Item = blockNodes[i];
+        }
+        var Lists = [], isListSelected = false;
+        for (var i = 0; i < blockNodes.length; i++) {
+            var Item = blockNodes[i];
+            if (texty.utils.listTagNames.indexOf(Item.nodeName) !== -1) { // if list tag add to Lists
+                if (Lists.indexOf(Item) === -1) {
+                    Lists.push(Item);
+                }
+                if (Item.nodeName != type) {
+                    allSame = false;
+                }
+            }
+            else if (texty.utils.listItemTagNames.indexOf(Item.nodeName) !== -1) { // if listitem tag add its parents to the Lists
+                if (Lists.indexOf(Item.parentNode) === -1) {
+                    Lists.push(Item.parentNode);
+                }
+                if (Item.parentNode.nodeName != type) {
+                    allSame = false;
+                }
+            }
+            else { // if none of them turn them to listelements
+                allSame = false;
+            }
+        }
+        var Items = [];
+        for (var i = 0; i < Lists.length; i++) {
+            Items = Items.concat(Lists[i].children);
+        }
+        if (allSame) { // if all lists are from the same type
+            if (Lists.length == 1) { // if one list is selected, then remove the list.
+                // move elements outside the lists
+                for (var i = 0; i < Lists.length; i++) {
+                    var List = Lists[i];
+                    var Items = List.children;
+                    for (var i = 0; i < Items.length; i++) {
+                        var Item = Items[i];
+                        var newNode = document.createElement("P");
+                        while (Item.firstChild) {
+                            newNode.appendChild(Item.firstChild);
+                        }
+                        for (var index = Item.attributes.length - 1; index >= 0; --index) {
+                            newNode.attributes.setNamedItem(Item.attributes[index].cloneNode());
+                        }
+                        Item.parentNode.parentNode.insertBefore(newNode, Item.parentNode);
+                    }
+                }
+                // remove lists
+                while (Lists.length > 0) {
+                    Lists.pop().remove();
+                }
+            }
+            else { // if more list is selected, then merge them into one list
+
+            }
+            var selectedSeen = false;
+            for (var i = 0; i < Items.length; i++) {
+                var Item = Items[i];
+                if (Item.nodeName == "LI") {
+                    if (selectedSeen) {
+                    }
+                    else {
+                    }
+                }
+                else {
+                }
+            }
+        }
+        else { // if there are different types
+            for (var i = 0; i < blockNodes.length; i++) {
+                var Item = blockNodes[i];
+                if (Item.nodeName != type && Item.nodeName != "LI") {
+                    var newNode = document.createElement(type);
+                    while (Item.firstChild) {
+                        newNode.appendChild(Item.firstChild);
+                    }
+                    for (var index = Item.attributes.length - 1; index >= 0; --index) {
+                        newNode.attributes.setNamedItem(Item.attributes[index].cloneNode());
+                    }
+                    Item.parentNode.replaceChild(newNode, Item);
+                }
+            }
+        }
+    };
     var keyboardRemap = function (e) {
         var evtobj = window.event ? event : e;
         if (evtobj.keyCode == 9) {
