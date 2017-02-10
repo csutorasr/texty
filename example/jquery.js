@@ -1,42 +1,42 @@
 var editor = $('#editor').texty();
 editor.on('texty-change', function () {
-    /*if (editor.activeAppliers.indexOf('bold') !== -1) {
-        document.getElementById('bold').classList.add('active');
+    if (editor.texty('activeAppliers').indexOf('bold') !== -1) {
+        $('#bold').addClass('active');
     }
     else {
-        document.getElementById('bold').classList.remove('active');
+        $('#bold').removeClass('active');
     }
-    if (editor.isRedoable()) {
-        document.getElementById('redo').classList.add('active');
-    }
-    else {
-        document.getElementById('redo').classList.remove('active');
-    }
-    if (editor.isUndoable()) {
-        document.getElementById('undo').classList.add('active');
+    if (editor.texty('isRedoable')) {
+        $('#redo').addClass('active');
     }
     else {
-        document.getElementById('undo').classList.remove('active');
+        $('#redo').removeClass('active');
     }
-    document.getElementById('left').classList.remove('active');
-    document.getElementById('center').classList.remove('active');
-    document.getElementById('right').classList.remove('active');
-    document.getElementById('justify').classList.remove('active');
-    if (editor.align) {
-        document.getElementById(editor.align).classList.add('active');
+    if (editor.texty('isUndoable')) {
+        $('#undo').addClass('active');
     }
-    if (editor.selectedImage) {
-        editor.selectedImage.src = prompt('new src=','/asdnew');
+    else {
+        $('#undo').removeClass('active');
     }
-    if (editor.selectedLink) {
-        editor.selectedLink.href = prompt('new href=','/asdnew');
+    $('#left').removeClass('active');
+    $('#center').removeClass('active');
+    $('#right').removeClass('active');
+    $('#justify').removeClass('active');
+    if (editor.texty('align')) {
+        document.getElementById(editor.texty('align')).classList.add('active');
     }
-    document.getElementById('h1').classList.remove('active');
-    document.getElementById('h2').classList.remove('active');
-    document.getElementById('p').classList.remove('active');
-    if (editor.blockNodeName) {
-        document.getElementById(editor.blockNodeName.toLowerCase()).classList.add('active');
-    }*/
+    if (editor.texty('selectedImage')) {
+        editor.texty('selectedImage').src = prompt('new src=','/asdnew');
+    }
+    if (editor.texty('selectedLink')) {
+        editor.texty('selectedLink').href = prompt('new href=','/asdnew');
+    }
+    $('#h1').removeClass('active');
+    $('#h2').removeClass('active');
+    $('#p').removeClass('active');
+    if (editor.texty('blockNodeName')) {
+        $('#' + editor.texty('blockNodeName').toLowerCase()).addClass('active');
+    }
 });
 editor.texty('addApplier', {
     name: 'bold',

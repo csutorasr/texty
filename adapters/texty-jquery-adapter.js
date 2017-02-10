@@ -20,7 +20,9 @@
                     if (editor) {
                         switch (fnName) {
                             case 'addApplier':
-                                return editor.addApplier(parameters.name, parameters.options);
+                                var r = editor.addApplier(parameters.name, parameters.options);
+                                editor.parseInput();
+                                return r;
                                 break;
                             case 'getApplier':
                                 return editor.getApplier(parameters.name);
@@ -87,6 +89,9 @@
                                 break;
                             case 'appliers':
                                 return editor.appliers;
+                                break;
+                            case 'blockNodeName':
+                                return editor.blockNodeName;
                                 break;
                             default:
                                 console.error("Function " + fnName + " not found.");
